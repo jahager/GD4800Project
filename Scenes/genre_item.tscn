@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs2ayfnqqu48j"]
+
+[ext_resource type="Script" path="res://Scenes/genre_item.gd" id="1_4re64"]
+
+[node name="Genre" type="HBoxContainer"]
+offset_right = 66.0
+offset_bottom = 31.0
+script = ExtResource("1_4re64")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "genre"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "x"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

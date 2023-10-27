@@ -1,24 +1,50 @@
-[gd_scene load_steps=2 format=3 uid="uid://dl4xespj5doda"]
+[gd_scene load_steps=5 format=3 uid="uid://dl4xespj5doda"]
 
 [ext_resource type="Script" path="res://Scenes/main.gd" id="1_2yyb8"]
+[ext_resource type="Texture2D" uid="uid://dajlmdto7jx23" path="res://Images/UnicornEntry.png" id="2_ll4f3"]
+[ext_resource type="Shader" path="res://Shaders/RainbowEdit.gdshader" id="3_60ai6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lh545"]
+shader = ExtResource("3_60ai6")
+shader_parameter/speed = 0.1
+shader_parameter/rainbow_width = 0.1
 
 [node name="main" type="Node"]
 script = ExtResource("1_2yyb8")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+show_behind_parent = true
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_lh545")
+layout_direction = 2
+anchors_preset = -1
+anchor_right = 0.998
+offset_left = 161.0
+offset_top = 134.0
+offset_right = 2.29596
+offset_bottom = 190.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="UnicornEntry" type="Sprite2D" parent="."]
+position = Vector2(100, 151)
+scale = Vector2(0.319824, 0.319824)
+texture = ExtResource("2_ll4f3")
+
 [node name="TextEdit" type="TextEdit" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 94.0
-offset_top = 31.0
-offset_right = -98.0
-offset_bottom = 72.0
+anchors_preset = -1
+anchor_right = 0.792
+offset_left = 174.0
+offset_top = 142.0
+offset_right = -0.216064
+offset_bottom = 183.0
 grow_horizontal = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 144.0
+offset_top = 301.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -27,17 +53,34 @@ layout_mode = 2
 
 [node name="SearchButton" type="Button" parent="."]
 anchors_preset = -1
-anchor_left = 0.492
-anchor_right = 0.492
-offset_left = -63.816
-offset_top = 88.0
-offset_right = 63.184
-offset_bottom = 119.0
+anchor_left = 0.802
+anchor_right = 0.802
+offset_left = 0.303955
+offset_top = 146.0
+offset_right = 127.304
+offset_bottom = 177.0
 grow_horizontal = 2
 size_flags_vertical = 4
 text = "Find Like Songs"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="GenreMenuButton" type="MenuButton" parent="."]
+offset_left = 192.0
+offset_top = 202.0
+offset_right = 283.0
+offset_bottom = 242.0
+text = "Add-Genre"
+flat = false
+
+[node name="GenreHFlowContainer" type="HFlowContainer" parent="."]
+clip_contents = true
+anchors_preset = -1
+anchor_right = 0.998
+offset_left = 291.0
+offset_top = 202.0
+offset_right = -6.70404
+offset_bottom = 301.0
 
 [connection signal="gui_input" from="TextEdit" to="." method="_on_text_edit_gui_input"]
 [connection signal="pressed" from="SearchButton" to="." method="_on_search_button_pressed"]
