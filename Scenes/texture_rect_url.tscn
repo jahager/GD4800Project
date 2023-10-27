@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0q4gcoslfw3i"]
+
+[ext_resource type="Script" path="res://Scenes/texture_rect_url.gd" id="1_qwyya"]
+
+[node name="TextureRect" type="TextureRect"]
+expand_mode = 4
+script = ExtResource("1_qwyya")
