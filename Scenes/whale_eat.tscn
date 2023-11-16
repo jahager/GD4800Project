@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceou7kfh8utsj"]
+
+[ext_resource type="Script" path="res://Scenes/move_off_screen.gd" id="1_68bd4"]
+[ext_resource type="Texture2D" uid="uid://b5oopoikpqwe2" path="res://Images/Whale.png" id="2_776rq"]
+
+[node name="MoveOffScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_68bd4")
+wobble_degrees = 1.0
+metadata/_edit_horizontal_guides_ = [100.0]
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(-193, 194)
+scale = Vector2(0.600952, 0.600952)
+texture = ExtResource("2_776rq")

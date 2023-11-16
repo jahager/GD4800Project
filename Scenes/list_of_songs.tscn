@@ -1,8 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://clnxfsnoesoa7"]
+[gd_scene load_steps=2 format=3 uid="uid://dvrc0fcnr5lvg"]
 
 [ext_resource type="Script" path="res://Scenes/list_of_songs.gd" id="1_mpgqw"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
-offset_right = 40.0
+[node name="HBoxContainer" type="HBoxContainer"]
+anchors_preset = 10
+anchor_right = 1.0
 offset_bottom = 40.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
 script = ExtResource("1_mpgqw")
+
+[node name="Container" type="Container" parent="."]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2

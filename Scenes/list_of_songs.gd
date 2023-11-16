@@ -1,26 +1,41 @@
-extends VBoxContainer
+extends HBoxContainer
 
 # Create GUI list of songs/album images
-func add_json(json):
+func add_json(json, song_name):
+	
+	
+	var panel = PanelContainer.new()
+	
+	panel.mouse_filter = Control.MOUSE_FILTER_PASS
+	self.add_child(panel)
+	panel.custom_minimum_size.x = 600
+	
 	var vbox = VBoxContainer.new()
-	self.add_child(vbox)
+	panel.add_child(vbox)
+	
+	var header = BoxContainer.new()
+	header.alignment = BoxContainer.ALIGNMENT_END
+	vbox.add_child(header)
+	
+	var header_hbox = HBoxContainer.new()
+	header.add_child(header_hbox)
+	
+	var song_header_label = Label.new()
+	song_header_label.text = song_name
+	header_hbox.add_child(song_header_label)
+	
+	var delete_button = Button.new()
+	delete_button.text = "X"
+	delete_button.connect("pressed", free_self)
+	header_hbox.add_child(delete_button)
 	
 	for recomendation in json:
-			var hbox = HBoxContainer.new()
-			vbox.add_child(hbox)
+		var song_row = preload("res://Scenes/single_song_display.tscn").instantiate()
+		vbox.add_child(song_row)
+		song_row.set_song(recomendation)
+
 			
-			var album_image = load("res://Scenes/texture_rect_url.tscn").instantiate()
-			var image_containter = AspectRatioContainer.new()
-			image_containter.add_child(album_image)
-			image_containter.set_size(Vector2(100,100))
-			image_containter.custom_minimum_size = Vector2(100,100)
-			hbox.add_child(image_containter)
-			album_image.set_image(recomendation["images"][0]["url"])
-		
-			print(recomendation["name"])
-			print(recomendation["artists"])
-			var song_label = Label.new()
-			song_label.text = recomendation["name"] + " -" 
-			for artist in recomendation["artists"]:
-				song_label.text = song_label.text + " " + artist
-			hbox.add_child(song_label)
+func free_self():
+	var whale_delete = preload("res://Scenes/whale_eat.tscn").instantiate()
+	whale_delete.delete_this(self)
+	

@@ -2,12 +2,17 @@ extends Node
 var NO_GENRE = "Optional Genre Select"
 var genres = ["acoustic", "afrobeat", "alt-rock", "alternative", "ambient", "anime", "black-metal", "bluegrass", "blues", "bossanova", "brazil", "breakbeat", "british", "cantopop", "chicago-house", "children", "chill", "classical", "club", "comedy", "country", "dance", "dancehall", "death-metal", "deep-house", "detroit-techno", "disco", "disney", "drum-and-bass", "dub", "dubstep", "edm", "electro", "electronic", "emo", "folk", "forro", "french", "funk", "garage", "german", "gospel", "goth", "grindcore", "groove", "grunge", "guitar", "happy", "hard-rock", "hardcore", "hardstyle", "heavy-metal", "hip-hop", "holidays", "honky-tonk", "house", "idm", "indian", "indie", "indie-pop", "industrial", "iranian", "j-dance", "j-idol", "j-pop", "j-rock", "jazz", "k-pop", "kids", "latin", "latino", "malay", "mandopop", "metal", "metal-misc", "metalcore", "minimal-techno", "movies", "mpb", "new-age", "new-release", "opera", "pagode", "party", "philippines-opm", "piano", "pop", "pop-film", "post-dubstep", "power-pop", "progressive-house", "psych-rock", "punk", "punk-rock", "r-n-b", "rainy-day", "reggae", "reggaeton", "road-trip", "rock", "rock-n-roll", "rockabilly", "romance", "sad", "salsa", "samba", "sertanejo", "show-tunes", "singer-songwriter", "ska", "sleep", "songwriter", "soul", "soundtracks", "spanish", "study", "summer", "swedish", "synth-pop", "tango", "techno", "trance", "trip-hop", "turkish", "work-out", "world-music"]
 var genre_popup
+var eye_position = Vector2(97,99)
 
 func _ready():
 	genre_popup = $GenreMenuButton.get_popup()
 	genre_popup.connect("id_pressed", add_genre)
 	for gen in genres:
 		genre_popup.add_item(gen)
+
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == 1 and event.pressed:
+		$Lazer.shoot(eye_position, event.position)
 
 func add_genre(id):
 	var genre = preload("res://Scenes/genre_item.tscn").instantiate()
@@ -31,7 +36,7 @@ func get_genres():
 func add_songs(song_json):
 	var song_list = preload("res://Scenes/list_of_songs.tscn").instantiate()
 	$ScrollContainer.find_child("VBoxContainer").add_child(song_list)
-	song_list.add_json(song_json)
+	song_list.add_json(song_json, $TextEdit.text)
 
 # Handle web content
 func _on_http_request_request_completed(result, response_code, headers, body):
@@ -50,8 +55,21 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 
 # Act on enter key.
 func _on_text_edit_gui_input(event):
-	if event is InputEventKey and event.key_label == KEY_ENTER:
+	
+	# Lazer on typing
+	if event is InputEventKey and event.is_pressed() and event.key_label != KEY_ENTER and event.key_label != KEY_SHIFT:
+		# Shoot lazer from eye of unicorn
+		var entry_letter_pos_x = $TextEdit.position.x + $TextEdit.get_caret_draw_pos().x
+		var entry_letter_pos_y = $TextEdit.position.y + ($TextEdit.size.y / 2 )
+		$Lazer.shoot(eye_position, Vector2(entry_letter_pos_x, entry_letter_pos_y))
+	
+	# Remove newline and lazer button on ENTER
+	if event is InputEventKey and event.key_label == KEY_ENTER and event.is_pressed():
 		# Remove new line
 		$TextEdit.text = $TextEdit.text.strip_escapes()
+		# Shoot Lazer at reccomend button
+		var button_pos_x = $SearchButton.position.x + ($SearchButton.size.x / 2)
+		var button_pos_y = $SearchButton.position.y + ($SearchButton.size.y / 2 )
+		$Lazer.shoot(eye_position, Vector2(button_pos_x, button_pos_y))
 		# Search 
 		_on_search_button_pressed()

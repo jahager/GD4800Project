@@ -1,0 +1,54 @@
+[gd_scene load_steps=4 format=3 uid="uid://b06c34ljqe4eh"]
+
+[ext_resource type="Script" path="res://Scenes/single_song_display.gd" id="1_m4nw4"]
+[ext_resource type="PackedScene" uid="uid://d0q4gcoslfw3i" path="res://Scenes/texture_rect_url.tscn" id="1_x75lf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3gq23"]
+font_size = 20
+
+[node name="SingleSongDisplay" type="Control"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+script = ExtResource("1_m4nw4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+anchor_right = 0.909
+offset_right = -0.0320435
+offset_bottom = 100.0
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+stretch_mode = 1
+
+[node name="AlbumTextureRect" parent="HBoxContainer/AspectRatioContainer" instance=ExtResource("1_x75lf")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="SongLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3gq23")
+
+[node name="ArtistLabel" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -59.0
+offset_bottom = 31.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Delete"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
