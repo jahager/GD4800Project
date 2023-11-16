@@ -77,11 +77,13 @@ func _on_text_edit_gui_input(event):
 	
 	# Remove newline and lazer button on ENTER
 	if event is InputEventKey and event.key_label == KEY_ENTER and event.is_pressed():
-		# Remove new line
-		$TextEdit.text = $TextEdit.text.strip_escapes()
 		# Shoot Lazer at reccomend button
 		var button_pos_x = $SearchButton.position.x + ($SearchButton.size.x / 2)
 		var button_pos_y = $SearchButton.position.y + ($SearchButton.size.y / 2 )
 		$Lazer.shoot(eye_position, Vector2(button_pos_x, button_pos_y))
 		# Search 
 		_on_search_button_pressed()
+	
+	if event is InputEventKey and event.key_label == KEY_ENTER:
+		# Remove new line
+		$TextEdit.text = $TextEdit.text.strip_escapes()
