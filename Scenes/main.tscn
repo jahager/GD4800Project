@@ -1,38 +1,43 @@
-[gd_scene load_steps=10 format=3 uid="uid://dl4xespj5doda"]
+[gd_scene load_steps=9 format=3 uid="uid://dl4xespj5doda"]
 
 [ext_resource type="Script" path="res://Scenes/main.gd" id="1_2yyb8"]
 [ext_resource type="Texture2D" uid="uid://dajlmdto7jx23" path="res://Images/UnicornEntry.png" id="2_ll4f3"]
 [ext_resource type="Texture2D" uid="uid://ddygndfbsggan" path="res://Images/MusicTitle.png" id="2_msqyb"]
 [ext_resource type="Shader" path="res://Shaders/RainbowAlphaOnly.gdshader" id="3_8cvcv"]
-[ext_resource type="Shader" path="res://Shaders/RainbowEdit.gdshader" id="3_60ai6"]
 [ext_resource type="Script" path="res://Scenes/Lazer.gd" id="6_pafh3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4nrhg"]
 shader = ExtResource("3_8cvcv")
+shader_parameter/time = null
 shader_parameter/speed = 0.1
-shader_parameter/rainbow_width = 0.1
+shader_parameter/frequency = 2.0
+shader_parameter/amplitude = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lh545"]
-shader = ExtResource("3_60ai6")
+shader = ExtResource("3_8cvcv")
+shader_parameter/time = null
 shader_parameter/speed = 0.1
-shader_parameter/rainbow_width = 0.1
+shader_parameter/frequency = 2.0
+shader_parameter/amplitude = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_td3i7"]
 shader = ExtResource("3_8cvcv")
+shader_parameter/time = null
 shader_parameter/speed = 0.1
-shader_parameter/rainbow_width = 0.1
+shader_parameter/frequency = 2.0
+shader_parameter/amplitude = 5.0
 
 [node name="main" type="Node"]
 script = ExtResource("1_2yyb8")
 
 [node name="MusicTitle2" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_4nrhg")
-position = Vector2(368.5, 76.5)
+position = Vector2(368.5, 54.5002)
 scale = Vector2(0.334961, 0.344727)
 texture = ExtResource("2_msqyb")
 
 [node name="MusicTitle" type="Sprite2D" parent="."]
-position = Vector2(367.312, 76.3125)
+position = Vector2(367.312, 54.3127)
 scale = Vector2(0.323608, 0.323608)
 texture = ExtResource("2_msqyb")
 
@@ -44,20 +49,20 @@ layout_direction = 2
 anchors_preset = -1
 anchor_right = 0.998
 offset_left = 161.0
-offset_top = 134.0
+offset_top = 112.0
 offset_right = 2.29596
-offset_bottom = 190.0
+offset_bottom = 168.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="UnicornEntry2" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_td3i7")
-position = Vector2(100, 151)
+position = Vector2(100, 129)
 scale = Vector2(0.33, 0.33)
 texture = ExtResource("2_ll4f3")
 
 [node name="UnicornEntry" type="Sprite2D" parent="."]
-position = Vector2(100, 151)
+position = Vector2(100, 129)
 scale = Vector2(0.319824, 0.319824)
 texture = ExtResource("2_ll4f3")
 
@@ -65,9 +70,9 @@ texture = ExtResource("2_ll4f3")
 anchors_preset = -1
 anchor_right = 0.792
 offset_left = 174.0
-offset_top = 142.0
+offset_top = 120.0
 offset_right = -0.216064
-offset_bottom = 183.0
+offset_bottom = 161.0
 grow_horizontal = 2
 placeholder_text = "Enter Song Name and/or Artist"
 
@@ -75,7 +80,7 @@ placeholder_text = "Enter Song Name and/or Artist"
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 301.0
+offset_top = 238.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -89,20 +94,18 @@ anchors_preset = -1
 anchor_left = 0.802
 anchor_right = 0.802
 offset_left = 0.303955
-offset_top = 146.0
+offset_top = 124.0
 offset_right = 127.304
-offset_bottom = 177.0
+offset_bottom = 155.0
 grow_horizontal = 2
 size_flags_vertical = 4
 text = "Recommend!"
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-
 [node name="GenreMenuButton" type="MenuButton" parent="."]
 offset_left = 192.0
-offset_top = 202.0
+offset_top = 180.0
 offset_right = 283.0
-offset_bottom = 242.0
+offset_bottom = 220.0
 text = "Add-Genre"
 flat = false
 
@@ -111,9 +114,11 @@ clip_contents = true
 anchors_preset = -1
 anchor_right = 0.998
 offset_left = 291.0
-offset_top = 202.0
+offset_top = 180.0
 offset_right = -6.70404
-offset_bottom = 301.0
+offset_bottom = 264.0
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
 
 [node name="Lazer" type="Node2D" parent="."]
 visible = false
