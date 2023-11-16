@@ -19,6 +19,7 @@ func add_genre(id):
 	genre.set_text(genres[id])
 	$GenreHFlowContainer.add_child(genre)
 
+
 # Get web content
 func _on_search_button_pressed():
 	var url: String = "https://personal-music-recommendation.azurewebsites.net/api/recommendation?code=BiLtlWfdvS4NmIH_Y9_xDnCT1Cs5rOLoLWvenK88PQW8AzFuDX25TA==&song=" + $TextEdit.text.uri_encode()
@@ -28,9 +29,12 @@ func _on_search_button_pressed():
 	
 func get_genres():
 	var genres = ""
+	if 0 == $GenreHFlowContainer.get_child_count():
+		return genres
 	for genre_item in $GenreHFlowContainer.get_children():
 		genres = genres + genre_item.get_text() + ","
-	return genres
+	
+	return genres.substr(0, genres.length() - 1)
 
 # Add song content to scroll area
 func add_songs(song_json):
@@ -38,7 +42,7 @@ func add_songs(song_json):
 	var songs_container = $ScrollContainer.find_child("VBoxContainer")
 	songs_container.add_child(song_list)
 	# Add to gui
-	song_list.add_json(song_json, $TextEdit.text)
+	song_list.add_json(song_json, $TextEdit.text, get_genres())
 	# Move to top
 	songs_container.move_child(song_list, 0)
 	
