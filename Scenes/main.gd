@@ -35,9 +35,21 @@ func get_genres():
 # Add song content to scroll area
 func add_songs(song_json):
 	var song_list = preload("res://Scenes/list_of_songs.tscn").instantiate()
-	$ScrollContainer.find_child("VBoxContainer").add_child(song_list)
+	var songs_container = $ScrollContainer.find_child("VBoxContainer")
+	songs_container.add_child(song_list)
+	# Add to gui
 	song_list.add_json(song_json, $TextEdit.text)
+	# Move to top
+	songs_container.move_child(song_list, 0)
+	
+	turn_visible(song_list, 0.7)
 
+func turn_visible(old_control: Control, reduction_time = 1):
+	old_control.modulate.a = 0
+	var reduce_size_tween = create_tween()
+	reduce_size_tween.parallel().tween_property(old_control, "modulate:a", 1, reduction_time)
+	reduce_size_tween.play()
+	
 # Handle web content
 func _on_http_request_request_completed(result, response_code, headers, body):
 	# Act on success only

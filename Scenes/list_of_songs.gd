@@ -11,10 +11,12 @@ func add_json(json, song_name):
 	panel.custom_minimum_size.x = 600
 	
 	var vbox = VBoxContainer.new()
+	vbox.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(vbox)
 	
 	var header = BoxContainer.new()
 	header.alignment = BoxContainer.ALIGNMENT_END
+	header.mouse_filter = Control.MOUSE_FILTER_PASS
 	vbox.add_child(header)
 	
 	var header_hbox = HBoxContainer.new()
@@ -23,9 +25,13 @@ func add_json(json, song_name):
 	var song_header_label = Label.new()
 	song_header_label.text = song_name
 	header_hbox.add_child(song_header_label)
+	var label_settings = LabelSettings.new()
+	label_settings.font_size = 20
+	song_header_label.label_settings = label_settings
+	
 	
 	var delete_button = Button.new()
-	delete_button.text = "X"
+	delete_button.text = "Delete List"
 	delete_button.connect("pressed", free_self)
 	header_hbox.add_child(delete_button)
 	
