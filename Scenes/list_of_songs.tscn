@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dvrc0fcnr5lvg"]
+[gd_scene load_steps=5 format=3 uid="uid://dvrc0fcnr5lvg"]
 
 [ext_resource type="Script" path="res://Scenes/list_of_songs.gd" id="1_mpgqw"]
+[ext_resource type="Shader" path="res://Shaders/RainbowAlphaOnly.gdshader" id="2_cympm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hicya"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqtiw"]
+shader = ExtResource("2_cympm")
+shader_parameter/speed = 0.1
+shader_parameter/rainbow_width = 0.1
 
 [node name="HBoxContainer" type="HBoxContainer"]
 anchors_preset = 10
@@ -12,6 +20,86 @@ size_flags_vertical = 3
 alignment = 1
 script = ExtResource("1_mpgqw")
 
-[node name="Container" type="Container" parent="."]
+[node name="LeftSpacerContainer" type="Container" parent="."]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="BoxContainer2" type="BoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="AddSongButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer2"]
+layout_mode = 2
+text = "Add Song"
+
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer"]
+layout_mode = 2
+
+[node name="PlaylistLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_hicya")
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="DeletePlaylistButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Delete Playlist"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+title = "Add Song"
+size = Vector2i(367, 100)
+visible = true
+ok_button_text = "Add Song!"
+
+[node name="ColorRect" type="ColorRect" parent="ConfirmationDialog"]
+show_behind_parent = true
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_cqtiw")
+layout_direction = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextEdit" type="TextEdit" parent="ConfirmationDialog"]
+custom_minimum_size = Vector2(339, 0)
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 359.0
+offset_bottom = 51.0
+grow_horizontal = 2
+placeholder_text = "Enter Song Name and/or Artist"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer2/AddSongButton" to="." method="_on_add_song_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer/HBoxContainer/DeletePlaylistButton" to="." method="free_self"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
+[connection signal="gui_input" from="ConfirmationDialog/TextEdit" to="." method="_on_text_edit_gui_input"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

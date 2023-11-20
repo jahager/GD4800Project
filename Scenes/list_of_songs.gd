@@ -2,7 +2,10 @@ extends HBoxContainer
 
 var song_name: String
 var genres: String
-var json: JSON
+var json
+@onready var playlist_label = $PanelContainer/VBoxContainer/HBoxContainer/BoxContainer/HBoxContainer/PlaylistLabel
+@onready var song_v_box_container = $PanelContainer/VBoxContainer/VBoxContainer
+
 
 # Create GUI list of songs/album images
 func add_json(json, song_name, genres):
@@ -10,46 +13,19 @@ func add_json(json, song_name, genres):
 	self.genres = genres
 	self.json = json
 	
-	var panel = PanelContainer.new()
-	
-	panel.mouse_filter = Control.MOUSE_FILTER_PASS
-	self.add_child(panel)
-	panel.custom_minimum_size.x = 600
-	
-	var vbox = VBoxContainer.new()
-	vbox.mouse_filter = Control.MOUSE_FILTER_PASS
-	panel.add_child(vbox)
-	
-	var header = BoxContainer.new()
-	header.alignment = BoxContainer.ALIGNMENT_END
-	header.mouse_filter = Control.MOUSE_FILTER_PASS
-	vbox.add_child(header)
-	
-	var header_hbox = HBoxContainer.new()
-	header.add_child(header_hbox)
-	
-	var song_header_label = Label.new()
-	# Add song name
-	song_header_label.text = "Song: " + song_name 
+	var song_header_label = "Song: " + song_name 
 	# Add Genres
-	if 0 < genres.length():
-		song_header_label.text = song_header_label.text +  ", Genres:" + genres
-	header_hbox.add_child(song_header_label)
-	var label_settings = LabelSettings.new()
-	label_settings.font_size = 20
-	song_header_label.label_settings = label_settings
-	
-	
-	var delete_button = Button.new()
-	delete_button.text = "Delete List"
-	delete_button.connect("pressed", free_self)
-	header_hbox.add_child(delete_button)
+	if genres.length() > 0 :
+		song_header_label = song_header_label +  ", Genres:" + genres
+	set_playlist_title(song_header_label)
 	
 	for recomendation in json:
 		var song_row = preload("res://Scenes/single_song_display.tscn").instantiate()
-		vbox.add_child(song_row)
+		self.song_v_box_container.add_child(song_row)
 		song_row.set_song(recomendation)
 
+func set_playlist_title(title: String):
+	self.playlist_label.text = title
 			
 func free_self():
 	var whale_delete = preload("res://Scenes/whale_eat.tscn").instantiate()
@@ -71,3 +47,66 @@ func import_from_saved_json(saved_json):
 	genres = saved_json["genres"]
 	json = saved_json["playlist"]
 	self.add_json(json, song_name, genres)
+
+
+func _on_add_song_button_pressed():
+	$ConfirmationDialog.popup_centered()
+	$ConfirmationDialog/TextEdit.grab_focus()
+
+
+func _on_text_edit_gui_input(event):
+	# Remove newline and lazer button on ENTER
+	if event is InputEventKey and event.key_label == KEY_ENTER and event.is_pressed():
+		# Search 
+		_on_confirmation_dialog_confirmed()
+	
+	if event is InputEventKey and event.key_label == KEY_ENTER:
+		# Remove new line
+		$ConfirmationDialog/TextEdit.text = $ConfirmationDialog/TextEdit.text.strip_escapes()
+
+
+func _on_confirmation_dialog_confirmed():
+	$ConfirmationDialog.hide()
+	var url: String = "https://personal-music-recommendation.azurewebsites.net/api/search?code=dkS5_6Zm8E-ElF4KzKlwPwZTDm-0_5d2_Q-Re5afhl-yAzFu-Ak5rg==&type=track&limit=1&q=" + $ConfirmationDialog/TextEdit.text.uri_encode()
+	print(url)
+	$HTTPRequest.request(url)
+	
+	#remove song text
+	$ConfirmationDialog/TextEdit.text = ""
+
+
+func _on_http_request_request_completed(result, response_code, headers, body):
+	# Act on success only
+	if response_code == 200:
+		var json = JSON.parse_string(body.get_string_from_utf8())
+		for recomendation in json:
+			var song_row = preload("res://Scenes/single_song_display.tscn").instantiate()
+			self.song_v_box_container.add_child(song_row)
+			song_row.set_song(recomendation)
+			self.song_v_box_container.move_child(song_row, 0)
+			turn_visible(song_row)
+	
+	# Notify user of web error
+	else:
+		var error_popup = AcceptDialog.new()
+		error_popup.dialog_text = "Error Web Response: " 
+		str(response_code)
+		add_child(error_popup)
+		error_popup.popup_centered()
+
+func turn_visible(old_control: Control, reduction_time = 1):
+	old_control.modulate.a = 0
+	var reduce_size_tween = create_tween()
+	reduce_size_tween.parallel().tween_property(old_control, "modulate:a", 1, reduction_time)
+	reduce_size_tween.play()
+	
+func add_song_json_to_json(new_json):
+	# Convert to JSON
+#	var json_string = JSON.stringify(playlist)
+	var parse_attempt = JSON.parse_string(new_json)
+	var new_json_parsed = parse_attempt.result
+	var old_json_parsed = JSON.parse_string(self.json).result
+	new_json_parsed.append(new_json)
+	self.json = old_json_parsed.stringify()
+	
+
