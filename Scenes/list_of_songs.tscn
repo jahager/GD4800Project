@@ -66,34 +66,29 @@ layout_mode = 2
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
 title = "Add Song"
-size = Vector2i(367, 100)
-visible = true
+position = Vector2i(0, 36)
+size = Vector2i(367, 107)
 ok_button_text = "Add Song!"
 
-[node name="ColorRect" type="ColorRect" parent="ConfirmationDialog"]
-show_behind_parent = true
-y_sort_enabled = true
-material = SubResource("ShaderMaterial_cqtiw")
-layout_direction = 2
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -49.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="TextEdit" type="TextEdit" parent="ConfirmationDialog"]
-custom_minimum_size = Vector2(339, 0)
+[node name="CenterContainer" type="CenterContainer" parent="ConfirmationDialog"]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 359.0
-offset_bottom = 51.0
-grow_horizontal = 2
+offset_bottom = 58.0
+
+[node name="ColorRect" type="ColorRect" parent="ConfirmationDialog/CenterContainer"]
+show_behind_parent = true
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_cqtiw")
+custom_minimum_size = Vector2(350, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextEdit" type="TextEdit" parent="ConfirmationDialog/CenterContainer"]
+custom_minimum_size = Vector2(339, 30)
+layout_mode = 2
 placeholder_text = "Enter Song Name and/or Artist"
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
@@ -101,5 +96,5 @@ placeholder_text = "Enter Song Name and/or Artist"
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer2/AddSongButton" to="." method="_on_add_song_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/BoxContainer/HBoxContainer/DeletePlaylistButton" to="." method="free_self"]
 [connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_confirmation_dialog_confirmed"]
-[connection signal="gui_input" from="ConfirmationDialog/TextEdit" to="." method="_on_text_edit_gui_input"]
+[connection signal="gui_input" from="ConfirmationDialog/CenterContainer/TextEdit" to="." method="_on_text_edit_gui_input"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

@@ -5,6 +5,7 @@ var genres: String
 var json
 @onready var playlist_label = $PanelContainer/VBoxContainer/HBoxContainer/BoxContainer/HBoxContainer/PlaylistLabel
 @onready var song_v_box_container = $PanelContainer/VBoxContainer/VBoxContainer
+@onready var add_song_search_text_edit = $ConfirmationDialog/CenterContainer/TextEdit
 
 
 # Create GUI list of songs/album images
@@ -16,7 +17,7 @@ func add_json(json, song_name, genres):
 	var song_header_label = "Song: " + song_name 
 	# Add Genres
 	if genres.length() > 0 :
-		song_header_label = song_header_label +  ", Genres:" + genres
+		song_header_label = song_header_label +  ", Genres: " + genres
 	set_playlist_title(song_header_label)
 	
 	for recomendation in json:
@@ -51,7 +52,7 @@ func import_from_saved_json(saved_json):
 
 func _on_add_song_button_pressed():
 	$ConfirmationDialog.popup_centered()
-	$ConfirmationDialog/TextEdit.grab_focus()
+	self.add_song_search_text_edit.grab_focus()
 
 
 func _on_text_edit_gui_input(event):
@@ -62,17 +63,18 @@ func _on_text_edit_gui_input(event):
 	
 	if event is InputEventKey and event.key_label == KEY_ENTER:
 		# Remove new line
-		$ConfirmationDialog/TextEdit.text = $ConfirmationDialog/TextEdit.text.strip_escapes()
+		self.add_song_search_text_edit.text = self.add_song_search_text_edit.text.strip_escapes()
 
 
 func _on_confirmation_dialog_confirmed():
 	$ConfirmationDialog.hide()
-	var url: String = "https://personal-music-recommendation.azurewebsites.net/api/search?code=dkS5_6Zm8E-ElF4KzKlwPwZTDm-0_5d2_Q-Re5afhl-yAzFu-Ak5rg==&type=track&limit=1&q=" + $ConfirmationDialog/TextEdit.text.uri_encode()
+	var url: String = "https://personal-music-recommendation.azurewebsites.net/api/search?code=dkS5_6Zm8E-ElF4KzKlwPwZTDm-0_5d2_Q-Re5afhl-yAzFu-Ak5rg==&type=track&limit=1&q=" + self.add_song_search_text_edit.text.uri_encode()
+	
 	print(url)
 	$HTTPRequest.request(url)
 	
 	#remove song text
-	$ConfirmationDialog/TextEdit.text = ""
+	self.add_song_search_text_edit.text = ""
 
 
 func _on_http_request_request_completed(result, response_code, headers, body):
