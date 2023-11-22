@@ -8,8 +8,7 @@ var youtube_thread = Thread.new()
 func find_download(search: String):
 	print("Getting: " + search)
 	self.video_filename = search + ".mp4"
-	
-	if FileAccess.file_exists("res://" + self.video_filename) or not DirAccess.dir_exists_absolute("res://youtube_dl"):
+	if FileAccess.file_exists("res://" + self.video_filename) or not DirAccess.dir_exists_absolute("youtube_dl"):
 		pass
 	else:
 		$HTTPRequest.request("https://www.youtube.com/results?search_query="+search.uri_encode())
