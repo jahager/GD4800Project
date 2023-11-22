@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://b06c34ljqe4eh"]
+[gd_scene load_steps=5 format=3 uid="uid://b06c34ljqe4eh"]
 
 [ext_resource type="Script" path="res://Scenes/single_song_display.gd" id="1_m4nw4"]
 [ext_resource type="PackedScene" uid="uid://d0q4gcoslfw3i" path="res://Scenes/texture_rect_url.tscn" id="1_x75lf"]
+[ext_resource type="PackedScene" uid="uid://bo38735r7cnfl" path="res://Scenes/video_stream_yt_player.tscn" id="3_wuqh5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3gq23"]
 font_size = 23
@@ -54,4 +55,27 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "Delete"
 
+[node name="PlayButton" type="Button" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -59.0
+offset_top = 32.0
+offset_bottom = 63.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "Play"
+
+[node name="VideoStreamYTPlayer" parent="." instance=ExtResource("3_wuqh5")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]

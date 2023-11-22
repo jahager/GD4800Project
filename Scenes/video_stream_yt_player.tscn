@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo38735r7cnfl"]
+
+[ext_resource type="Script" path="res://Scenes/video_stream_yt_player.gd" id="1_11vod"]
+
+[node name="VideoStreamYTPlayer" type="VideoStreamPlayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand = true
+script = ExtResource("1_11vod")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_request_completed"]

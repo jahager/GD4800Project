@@ -1,0 +1,66 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbuw6842xsx1x"]
+
+[ext_resource type="Script" path="res://Scenes/video_birds.gd" id="1_1k3x7"]
+[ext_resource type="Texture2D" uid="uid://xn8c77eq573w" path="res://Images/Dove.png" id="1_j114q"]
+[ext_resource type="Shader" path="res://Shaders/RainbowAlphaOnly.gdshader" id="2_3oi68"]
+[ext_resource type="PackedScene" uid="uid://bo38735r7cnfl" path="res://Scenes/video_stream_yt_player.tscn" id="3_ybo0h"]
+[ext_resource type="PackedScene" uid="uid://clap0t5kmbbmh" path="res://Scenes/spin_dolphin.tscn" id="4_28ods"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mdm57"]
+shader = ExtResource("2_3oi68")
+shader_parameter/speed = 0.1
+shader_parameter/rainbow_width = 0.1
+
+[node name="VideoBirds" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_1k3x7")
+
+[node name="LeftDove" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = -150.0
+offset_top = -189.0
+offset_right = 120.0
+offset_bottom = 81.0
+pivot_offset = Vector2(161, 195)
+texture_normal = ExtResource("1_j114q")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="RightDove" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 231.0
+offset_top = -190.0
+offset_right = 501.0
+offset_bottom = 80.0
+pivot_offset = Vector2(108, 191)
+texture_normal = ExtResource("1_j114q")
+ignore_texture_size = true
+stretch_mode = 0
+flip_h = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="CenterContainer"]
+material = SubResource("ShaderMaterial_mdm57")
+custom_minimum_size = Vector2(356, 203)
+layout_mode = 2
+
+[node name="SpinDolphin" parent="CenterContainer" instance=ExtResource("4_28ods")]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+
+[node name="AspectContainer" type="AspectRatioContainer" parent="CenterContainer"]
+custom_minimum_size = Vector2(350, 197)
+layout_mode = 2
+stretch_mode = 1
+
+[node name="VideoStreamYTPlayer" parent="CenterContainer/AspectContainer" instance=ExtResource("3_ybo0h")]
+custom_minimum_size = Vector2(350, 197)
+layout_mode = 2
+
+[connection signal="pressed" from="LeftDove" to="." method="_on_left_dove_pressed"]
+[connection signal="pressed" from="RightDove" to="." method="_on_right_dove_pressed"]

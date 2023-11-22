@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://dde427soqhvb8"]
+
+[sub_resource type="GDScript" id="GDScript_ise7w"]
+resource_name = "YouTubeScrape"
+script/source = "extends Control
+
+var video_filename: String = \"down.mp4\"
+signal download_complete(video_filename)
+
+func find_download(search: String, filename:String = \"down.mp4\"):
+	self.video_filename = filename
+	$HTTPRequest.request(\"https://www.youtube.com/results?search_query=BlurSong2\")
+
+func _on_http_request_request_completed(result, response_code, headers, body):
+	var response = body.get_string_from_utf8()
+	var regex = RegEx.new()
+	regex.compile(\"watch[?]v=.*?[\\\\][u]\")
+	var res = regex.search(response)
+	if res:
+		var watch_tag = res.get_string()
+		var video_url = \"https://www.youtube.com/\" + watch_tag.substr(0, watch_tag.length()-2)
+		download_video(video_url)
+
+func download_video(url: String):
+	var resp = OS.execute(\"python\", PackedStringArray( [\"-m\", \"youtube_dl\", url, \"-o\", self.video_filename]))
+	download_complete.emit(self.video_filename)
+
+"
+
+[node name="YouTubeScrape" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_ise7w")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
