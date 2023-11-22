@@ -76,6 +76,7 @@ func drop_video(is_drop_left: bool = true):
 
 
 func _on_right_dove_pressed():
+	feather_maker($RightDove)
 	$RightDove.queue_free()
 	self.right_dove_exists = false
 	
@@ -83,9 +84,20 @@ func _on_right_dove_pressed():
 	
 	if self.left_dove_exists:
 		drop_video()
-	
+
+func feather_maker(target_object: Control):
+	var random = RandomNumberGenerator.new()
+	random.randomize()
+	for num in range(0, 10):
+		var feather = preload("res://Scenes/feather.tscn").instantiate()
+		var x_pos = (target_object.global_position.x + random.randi()%150) - 75 + target_object.get_rect().size.x / 2
+		random.randomize()
+		var y_pos = (target_object.global_position.y + random.randi()%150) - 75 + target_object.get_rect().size.y / 2
+		feather.global_position = Vector2(x_pos, y_pos)
+		get_viewport().add_child(feather)
 
 func _on_left_dove_pressed():
+	feather_maker($LeftDove)
 	$LeftDove.queue_free()
 	self.left_dove_exists = false
 	
@@ -95,6 +107,7 @@ func _on_left_dove_pressed():
 		drop_video(false)
 
 func drop_off_screen():
+	# Drops entire self off screen and self deletes
 	var screen_height = get_viewport().get_visible_rect().size.y
 	var move_down = screen_height + $".".get_rect().size.y + self.bird_height
 	var drop_tween = create_tween()

@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcsdp6v41pcft"]
+
+[ext_resource type="Texture2D" uid="uid://cdpxpyd0x25i" path="res://Images/feather.png" id="1_qj6s0"]
+
+[sub_resource type="GDScript" id="GDScript_5ixs3"]
+resource_name = "Feather"
+script/source = "extends TextureRect
+
+var drop_tween: Tween
+var side_move_tween: Tween
+var spin_tween: Tween
+var drop_amount = 100
+var side_move_amount = 150
+var spin_amount = -30
+var is_first_drop = true
+var time_animate = 2.0
+
+func _ready():
+	var random = RandomNumberGenerator.new()
+	random.randomize()
+	self.drop_amount += random.randi() % 150
+	self.side_move_amount += random.randi() % 10
+	random.randomize()
+	if 0 == random.randi() % 2:
+		self.flip_h = true
+	if 0 == random.randi() % 2:
+		self.side_move_amount+=20
+		
+	# Randomize drop time
+	var time_adjust = (-5.0 + (random.randi() % 10)) / 10.0
+	self.time_animate += time_adjust
+	
+	_drop_again()
+	_side_movement()
+	
+
+func _process(delta):
+	# Delete when off screen
+	if get_viewport_rect().size.y < position.y:
+		queue_free()
+
+func _drop_again():
+	if self.drop_tween:
+		self.drop_tween.kill()
+	self.drop_tween = create_tween()
+	self.drop_tween.set_ease(Tween.EASE_IN_OUT)
+	self.drop_tween.set_trans(Tween.TRANS_SINE)
+	self.drop_tween.tween_property(self, \"position:y\", self.position.y + self.drop_amount, self.time_animate)
+	self.drop_tween.finished.connect(_drop_again)
+	self.drop_tween.play()
+
+func _side_movement():
+	if self.side_move_tween:
+		self.side_move_tween.kill()
+	self.side_move_tween = create_tween()
+	self.side_move_tween.set_ease(Tween.EASE_IN_OUT)
+	self.side_move_tween.set_trans(Tween.TRANS_SINE)
+	
+	var move
+	# Only move half as much on first drop
+	if self.is_first_drop:
+		move = self.side_move_amount
+		self.is_first_drop = false
+	else:
+		move = self.side_move_amount * 2
+		
+	self.side_move_tween.parallel().tween_property(self, \"position:x\", self.position.x + move, self.time_animate)
+	self.side_move_tween.parallel().tween_property(self, \"rotation_degrees\", self.spin_amount, self.time_animate)
+	self.side_move_amount = -self.side_move_amount
+	self.spin_amount = -self.spin_amount
+	self.side_move_tween.finished.connect(_side_movement)
+	self.side_move_tween.play()
+
+
+"
+
+[node name="Feather" type="TextureRect"]
+offset_right = 78.0
+offset_bottom = 78.0
+texture = ExtResource("1_qj6s0")
+expand_mode = 1
+script = SubResource("GDScript_5ixs3")
