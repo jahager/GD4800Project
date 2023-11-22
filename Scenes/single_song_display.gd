@@ -34,3 +34,4 @@ func _on_play_button_pressed():
 	
 	self.get_viewport().add_child(music_video)
 	music_video.get_play_video(get_song_artist_string())
+	music_video.play()
