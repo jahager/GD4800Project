@@ -1,23 +1,25 @@
-[gd_scene load_steps=9 format=3 uid="uid://dl4xespj5doda"]
+[gd_scene load_steps=11 format=3 uid="uid://dl4xespj5doda"]
 
 [ext_resource type="Script" path="res://Scenes/main.gd" id="1_2yyb8"]
 [ext_resource type="Texture2D" uid="uid://dajlmdto7jx23" path="res://Images/UnicornEntry.png" id="2_ll4f3"]
 [ext_resource type="Texture2D" uid="uid://ddygndfbsggan" path="res://Images/MusicTitle.png" id="2_msqyb"]
-[ext_resource type="Shader" path="res://Shaders/RainbowAlphaOnly.gdshader" id="3_8cvcv"]
+[ext_resource type="Shader" path="res://Shaders/RainbowAlpha1Only.gdshader" id="3_dbk1s"]
+[ext_resource type="Theme" uid="uid://dihwv6uwav2gp" path="res://Theme/pink_theme.tres" id="6_k14v5"]
 [ext_resource type="Script" path="res://Scenes/Lazer.gd" id="6_pafh3"]
+[ext_resource type="PackedScene" uid="uid://bdndqvrgvbc2n" path="res://Scenes/shaded_cloud_background.tscn" id="7_ylop0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4nrhg"]
-shader = ExtResource("3_8cvcv")
+shader = ExtResource("3_dbk1s")
 shader_parameter/speed = 0.1
 shader_parameter/rainbow_width = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lh545"]
-shader = ExtResource("3_8cvcv")
+shader = ExtResource("3_dbk1s")
 shader_parameter/speed = 0.1
 shader_parameter/rainbow_width = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_td3i7"]
-shader = ExtResource("3_8cvcv")
+shader = ExtResource("3_dbk1s")
 shader_parameter/speed = 0.1
 shader_parameter/rainbow_width = 0.1
 
@@ -25,6 +27,8 @@ shader_parameter/rainbow_width = 0.1
 script = ExtResource("1_2yyb8")
 metadata/_edit_vertical_guides_ = [96.0]
 metadata/_edit_horizontal_guides_ = [79.0]
+
+[node name="ShadedCloudBackground" parent="." instance=ExtResource("7_ylop0")]
 
 [node name="MusicTitle2" type="Sprite2D" parent="."]
 z_index = -4
@@ -48,7 +52,7 @@ anchors_preset = -1
 anchor_right = 0.998
 offset_left = 161.0
 offset_top = 112.0
-offset_right = 2.29596
+offset_right = 121.08
 offset_bottom = 168.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -69,7 +73,7 @@ anchors_preset = -1
 anchor_right = 0.792
 offset_left = 174.0
 offset_top = 120.0
-offset_right = -0.216064
+offset_right = 150.32
 offset_bottom = 161.0
 grow_horizontal = 2
 placeholder_text = "Enter Song Name and/or Artist"
@@ -79,10 +83,12 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = 226.0
+offset_bottom = 186.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource("6_k14v5")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 layout_mode = 2
@@ -98,6 +104,7 @@ offset_right = 127.304
 offset_bottom = 155.0
 grow_horizontal = 2
 size_flags_vertical = 4
+theme = ExtResource("6_k14v5")
 text = "Recommend!"
 
 [node name="GenreMenuButton" type="MenuButton" parent="."]
@@ -105,6 +112,7 @@ offset_left = 192.0
 offset_top = 180.0
 offset_right = 283.0
 offset_bottom = 220.0
+theme = ExtResource("6_k14v5")
 text = "Add-Genre"
 flat = false
 
@@ -115,8 +123,9 @@ anchors_preset = -1
 anchor_right = 0.998
 offset_left = 291.0
 offset_top = 178.0
-offset_right = -6.70404
+offset_right = -0.704041
 offset_bottom = 220.0
+theme = ExtResource("6_k14v5")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
@@ -127,6 +136,10 @@ script = ExtResource("6_pafh3")
 [node name="Timer" type="Timer" parent="Lazer"]
 wait_time = 0.1
 one_shot = true
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 
 [connection signal="gui_input" from="TextEdit" to="." method="_on_text_edit_gui_input"]
 [connection signal="pressed" from="SearchButton" to="." method="_on_search_button_pressed"]

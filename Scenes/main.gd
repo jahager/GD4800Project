@@ -4,11 +4,15 @@ var genres = ["acoustic", "afrobeat", "alt-rock", "alternative", "ambient", "ani
 var genre_popup
 var eye_position = Vector2(96,78)
 
+
+
 func _ready():
 	genre_popup = $GenreMenuButton.get_popup()
 	genre_popup.connect("id_pressed", add_genre)
 	for gen in genres:
 		genre_popup.add_item(gen)
+		
+
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == 1 and event.pressed:

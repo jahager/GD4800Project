@@ -1,12 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvrc0fcnr5lvg"]
+[gd_scene load_steps=8 format=3 uid="uid://c30j522nbb01u"]
 
 [ext_resource type="Script" path="res://Scenes/list_of_songs.gd" id="1_mpgqw"]
-[ext_resource type="Shader" path="res://Shaders/RainbowAlphaOnly.gdshader" id="2_cympm"]
+[ext_resource type="Shader" path="res://Shaders/RainbowAlpha1Only.gdshader" id="2_7mjbs"]
+[ext_resource type="Theme" uid="uid://dihwv6uwav2gp" path="res://Theme/pink_theme.tres" id="3_5i7lm"]
+[ext_resource type="PackedScene" uid="uid://bdndqvrgvbc2n" path="res://Scenes/shaded_cloud_background.tscn" id="4_llvdu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ovijj"]
+shader = ExtResource("2_7mjbs")
+shader_parameter/speed = 0.1
+shader_parameter/rainbow_width = 0.1
 
 [sub_resource type="LabelSettings" id="LabelSettings_hicya"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cqtiw"]
-shader = ExtResource("2_cympm")
+shader = ExtResource("2_7mjbs")
 shader_parameter/speed = 0.1
 shader_parameter/rainbow_width = 0.1
 
@@ -25,9 +32,11 @@ custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+material = SubResource("ShaderMaterial_ovijj")
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 mouse_filter = 1
+theme = ExtResource("3_5i7lm")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -69,6 +78,8 @@ title = "Add Song"
 position = Vector2i(0, 36)
 size = Vector2i(367, 107)
 ok_button_text = "Add Song!"
+
+[node name="ShadedCloudBackground" parent="ConfirmationDialog" instance=ExtResource("4_llvdu")]
 
 [node name="CenterContainer" type="CenterContainer" parent="ConfirmationDialog"]
 offset_left = 8.0

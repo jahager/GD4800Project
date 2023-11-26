@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0t4kxv5xgj5u"]
+[gd_scene load_steps=4 format=3 uid="uid://c0t4kxv5xgj5u"]
 
 [ext_resource type="Script" path="res://Scenes/move_off_screen.gd" id="1_abpfu"]
 [ext_resource type="Texture2D" uid="uid://d14gtegytqkh4" path="res://Images/Dolphin.png" id="1_bua7y"]
+[ext_resource type="Theme" uid="uid://dihwv6uwav2gp" path="res://Theme/pink_theme.tres" id="1_hd1aq"]
 
 [node name="MoveOffScreen" type="Control"]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_hd1aq")
 script = ExtResource("1_abpfu")
 metadata/_edit_horizontal_guides_ = [100.0]
 

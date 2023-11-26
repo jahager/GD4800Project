@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cga50ipafc8dy"]
+[gd_scene load_steps=4 format=3 uid="uid://cga50ipafc8dy"]
 
+[ext_resource type="Theme" uid="uid://dihwv6uwav2gp" path="res://Theme/pink_theme.tres" id="1_1u4qt"]
 [ext_resource type="Script" path="res://Scenes/eagle_remove.gd" id="1_a01nb"]
 [ext_resource type="Texture2D" uid="uid://c4lcrjdrl3x80" path="res://Images/Eagle.png" id="2_7ntlp"]
 
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_1u4qt")
 script = ExtResource("1_a01nb")
 metadata/_edit_horizontal_guides_ = [100.0]
 
