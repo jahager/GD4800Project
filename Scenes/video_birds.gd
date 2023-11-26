@@ -6,9 +6,11 @@ extends Control
 var left_dove_exists = true
 var right_dove_exists = true
 @onready var bird_height = $LeftDove.get_rect().size.y
+@onready var screen_move_tween: Tween
 
 
 func _ready():
+	
 	# Fix dolphin spin issue
 	$CenterContainer/SpinDolphin.pivot_offset = Vector2(75, 75)
 	
@@ -18,6 +20,9 @@ func _ready():
 	
 	#lower to mid
 	drop_mid_from_top()
+	
+	# On window size change, move to center
+	get_viewport().size_changed.connect(move_to_center)
 	
 
 func get_play_video(video_name: String):
@@ -41,7 +46,23 @@ func drop_mid_from_top():
 	drop_mid_tween.tween_property($".", "global_position:y", target_y_mid, 8)
 	drop_mid_tween.play()
 	
+func move_to_center():
+	if self.screen_move_tween:
+		self.screen_move_tween.kill()
+	self.screen_move_tween = create_tween()
+	var screen_width = get_viewport().get_visible_rect().size.x
+	var self_width = $CenterContainer/ColorRect.custom_minimum_size.x
+	var target_x_mid = (screen_width / 2) - (self_width / 2)
 	
+	var screen_height = get_viewport().get_visible_rect().size.y
+	var self_height = $".".get_rect().size.y
+	var target_y_mid = screen_height / 2  + self_height / 2
+	
+	self.screen_move_tween.set_ease(Tween.EASE_OUT)
+	self.screen_move_tween.set_trans(Tween.TRANS_ELASTIC)
+	self.screen_move_tween.parallel().tween_property($".", "global_position:y", target_y_mid, 8)
+	self.screen_move_tween.parallel().tween_property($".", "global_position:x", target_x_mid, 8)
+	self.screen_move_tween.play()
 
 func _bird_wobble():
 	# Stop animation when objects are gone.
