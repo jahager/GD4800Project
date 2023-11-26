@@ -3,23 +3,23 @@
 [ext_resource type="Script" path="res://Scenes/main.gd" id="1_2yyb8"]
 [ext_resource type="Texture2D" uid="uid://dajlmdto7jx23" path="res://Images/UnicornEntry.png" id="2_ll4f3"]
 [ext_resource type="Texture2D" uid="uid://ddygndfbsggan" path="res://Images/MusicTitle.png" id="2_msqyb"]
-[ext_resource type="Shader" path="res://Shaders/RainbowAlpha1Only.gdshader" id="3_dbk1s"]
+[ext_resource type="Shader" path="res://Shaders/RainbowAlphaOnly.gdshader" id="5_f84ye"]
 [ext_resource type="Theme" uid="uid://dihwv6uwav2gp" path="res://Theme/pink_theme.tres" id="6_k14v5"]
 [ext_resource type="Script" path="res://Scenes/Lazer.gd" id="6_pafh3"]
 [ext_resource type="PackedScene" uid="uid://bdndqvrgvbc2n" path="res://Scenes/shaded_cloud_background.tscn" id="7_ylop0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4nrhg"]
-shader = ExtResource("3_dbk1s")
+shader = ExtResource("5_f84ye")
 shader_parameter/speed = 0.1
 shader_parameter/rainbow_width = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lh545"]
-shader = ExtResource("3_dbk1s")
+shader = ExtResource("5_f84ye")
 shader_parameter/speed = 0.1
 shader_parameter/rainbow_width = 0.1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_td3i7"]
-shader = ExtResource("3_dbk1s")
+shader = ExtResource("5_f84ye")
 shader_parameter/speed = 0.1
 shader_parameter/rainbow_width = 0.1
 
