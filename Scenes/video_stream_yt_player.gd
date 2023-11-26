@@ -7,11 +7,20 @@ var youtube_thread = Thread.new()
 
 func find_download(search: String):
 	print("Getting: " + search)
-	self.video_filename = search + ".mp4"
+	self.video_filename = _filename_fix(search) + ".mp4"
+	
 	if FileAccess.file_exists("res://" + self.video_filename) or not DirAccess.dir_exists_absolute("youtube_dl"):
 		pass
 	else:
 		$HTTPRequest.request("https://www.youtube.com/results?search_query="+search.uri_encode())
+
+func _filename_fix(input: String) -> String:
+	var builder = input.strip_escapes()
+	builder = builder.replace(":", "").replace("/", "").replace("\\", "")
+	builder = builder.replace("?", "").replace("*", "").replace("\"", "")
+	builder = builder.replace("|", "").replace("%", "").replace("<", "")
+	builder = builder.replace(">", "")
+	return builder
 
 func _on_http_request_request_completed(result, response_code, headers, body):
 	print("Respone received!")
