@@ -26,7 +26,7 @@ func add_genre(id):
 
 # Get web content
 func _on_search_button_pressed():
-	var url: String = "https://personal-music-recommendation.azurewebsites.net/api/recommendation?code=BiLtlWfdvS4NmIH_Y9_xDnCT1Cs5rOLoLWvenK88PQW8AzFuDX25TA==&song=" + $TextEdit.text.uri_encode()
+	var url: String = "https://pmrapim.azure-api.net/personal-music-recommendation/recommendation?song=" + $TextEdit.text.uri_encode()
 	url += "&genre=" + get_genres().uri_encode()
 	print(url)
 	$HTTPRequest.request(url)

@@ -68,8 +68,8 @@ func _on_text_edit_gui_input(event):
 
 func _on_confirmation_dialog_confirmed():
 	$ConfirmationDialog.hide()
-	var url: String = "https://personal-music-recommendation.azurewebsites.net/api/search?code=dkS5_6Zm8E-ElF4KzKlwPwZTDm-0_5d2_Q-Re5afhl-yAzFu-Ak5rg==&type=track&limit=1&q=" + self.add_song_search_text_edit.text.uri_encode()
-	
+	var url: String = "https://pmrapim.azure-api.net/personal-music-recommendation/search?q=" + self.add_song_search_text_edit.text.uri_encode()
+	url += "&type=track&limit=1"
 	print(url)
 	$HTTPRequest.request(url)
 	

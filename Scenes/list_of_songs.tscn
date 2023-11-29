@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://c30j522nbb01u"]
+[gd_scene load_steps=7 format=3 uid="uid://c30j522nbb01u"]
 
 [ext_resource type="Script" path="res://Scenes/list_of_songs.gd" id="1_mpgqw"]
 [ext_resource type="Shader" path="res://Shaders/RainbowAlpha1Only.gdshader" id="2_7mjbs"]
 [ext_resource type="Theme" uid="uid://dihwv6uwav2gp" path="res://Theme/pink_theme.tres" id="3_5i7lm"]
-[ext_resource type="PackedScene" uid="uid://bdndqvrgvbc2n" path="res://Scenes/shaded_cloud_background.tscn" id="4_llvdu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ovijj"]
 shader = ExtResource("2_7mjbs")
@@ -77,15 +76,14 @@ layout_mode = 2
 title = "Add Song"
 position = Vector2i(0, 36)
 size = Vector2i(367, 107)
+theme = ExtResource("3_5i7lm")
 ok_button_text = "Add Song!"
-
-[node name="ShadedCloudBackground" parent="ConfirmationDialog" instance=ExtResource("4_llvdu")]
 
 [node name="CenterContainer" type="CenterContainer" parent="ConfirmationDialog"]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 359.0
-offset_bottom = 58.0
+offset_bottom = 64.0
 
 [node name="ColorRect" type="ColorRect" parent="ConfirmationDialog/CenterContainer"]
 show_behind_parent = true
